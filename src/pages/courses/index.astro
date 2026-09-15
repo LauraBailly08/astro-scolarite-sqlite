@@ -1,0 +1,37 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import db from "../../lib/db";
+
+const courses = db.prepare(`
+  SELECT courses.*, formations.name as formation_name 
+  FROM courses 
+  LEFT JOIN formations ON courses.formation_id = formations.id
+`).all();
+---
+
+<Layout title="Cours">
+  <main style="max-width: 1000px; margin: 2rem auto; padding: 0 1rem;">
+    <h1>Cours</h1>
+    
+    <table style="width: 100%; border-collapse: collapse; margin-top: 1.5rem; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+      <thead>
+        <tr style="background: #f4f4f6; text-align: left;">
+          <th style="padding: 1rem;">Code</th>
+          <th style="padding: 1rem;">Nom</th>
+          <th style="padding: 1rem;">Semestre</th>
+          <th style="padding: 1rem;">Formation</th>
+        </tr>
+      </thead>
+      <tbody>
+        {courses.map((course: any) => (
+          <tr style="border-top: 1px solid #eee;">
+            <td style="padding: 1rem; font-weight: bold;">{course.code}</td>
+            <td style="padding: 1rem;">{course.name}</td>
+            <td style="padding: 1rem;">S{course.semester}</td>
+            <td style="padding: 1rem;">{course.formation_name ?? "N/A"}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </main>
+</Layout>

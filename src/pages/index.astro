@@ -1,0 +1,54 @@
+---
+import Layout from "../layouts/Layout.astro";
+import db from "../lib/db";
+
+const studentsCount = db.prepare("SELECT COUNT(*) as count FROM students").get()?.count ?? 0;
+const formationsCount = db.prepare("SELECT COUNT(*) as count FROM formations").get()?.count ?? 0;
+const coursesCount = db.prepare("SELECT COUNT(*) as count FROM courses").get()?.count ?? 0;
+const registrationsCount = db.prepare("SELECT COUNT(*) as count FROM registrations").get()?.count ?? 0;
+const teachersCount = db.prepare("SELECT COUNT(*) as count FROM teachers").get()?.count ?? 0;
+---
+
+<Layout title="Accueil">
+  <main style="max-width: 1000px; margin: 2rem auto; padding: 0 1rem;">
+    <h1>Gestion de la scolarité</h1>
+    <p>AstroJS SSR + SQLite.</p>
+
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem;">
+      <a href="/students" style="text-decoration: none; color: inherit; flex: 1; min-width: 150px;">
+        <div style="background: #ffffff; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+          <h2>Étudiants</h2>
+          <p style="font-size: 1.5rem; font-weight: bold; margin: 0;">{studentsCount}</p>
+        </div>
+      </a>
+
+      <a href="/formations" style="text-decoration: none; color: inherit; flex: 1; min-width: 150px;">
+        <div style="background: #ffffff; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+          <h2>Formations</h2>
+          <p style="font-size: 1.5rem; font-weight: bold; margin: 0;">{formationsCount}</p>
+        </div>
+      </a>
+
+      <a href="/courses" style="text-decoration: none; color: inherit; flex: 1; min-width: 150px;">
+        <div style="background: #ffffff; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+          <h2>Cours</h2>
+          <p style="font-size: 1.5rem; font-weight: bold; margin: 0;">{coursesCount}</p>
+        </div>
+      </a>
+
+      <a href="/registrations" style="text-decoration: none; color: inherit; flex: 1; min-width: 150px;">
+        <div style="background: #ffffff; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+          <h2>Inscriptions</h2>
+          <p style="font-size: 1.5rem; font-weight: bold; margin: 0;">{registrationsCount}</p>
+        </div>
+      </a>
+
+      <a href="/teachers" style="text-decoration: none; color: inherit; flex: 1; min-width: 150px;">
+        <div style="background: #ffffff; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+          <h2>Enseignants</h2>
+          <p style="font-size: 1.5rem; font-weight: bold; margin: 0;">{teachersCount}</p>
+        </div>
+      </a>
+    </div>
+  </main>
+</Layout>

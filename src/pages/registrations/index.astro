@@ -1,0 +1,47 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import db from "../../lib/db";
+
+const registrations = db.prepare(`
+  SELECT 
+    registrations.id,
+    registrations.academic_year,
+    students.first_name,
+    students.last_name,
+    students.student_number,
+    formations.name as formation_name,
+    formations.code as formation_code
+  FROM registrations
+  LEFT JOIN students ON registrations.student_id = students.id
+  LEFT JOIN formations ON registrations.formation_id = formations.id
+`).all();
+---
+
+<Layout title="Inscriptions">
+  <main style="max-width: 1000px; margin: 2rem auto; padding: 0 1rem;">
+    <h1>Inscriptions</h1>
+
+    <table style="width: 100%; border-collapse: collapse; margin-top: 1.5rem; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+      <thead>
+        <tr style="background: #f4f4f6; text-align: left;">
+          <th style="padding: 1rem;">Étudiant</th>
+          <th style="padding: 1rem;">N° Étudiant</th>
+          <th style="padding: 1rem;">Formation</th>
+          <th style="padding: 1rem;">Année académique</th>
+        </tr>
+      </thead>
+      <tbody>
+        {registrations.map((reg: any) => (
+          <tr style="border-top: 1px solid #eee;">
+            <td style="padding: 1rem; font-weight: bold;">
+              {reg.first_name && reg.last_name ? `${reg.first_name} ${reg.last_name}` : "Étudiant inconnu"}
+            </td>
+            <td style="padding: 1rem;">{reg.student_number ?? "-"}</td>
+            <td style="padding: 1rem;">{reg.formation_name ? `${reg.formation_name} (${reg.formation_code})` : "N/A"}</td>
+            <td style="padding: 1rem;">{reg.academic_year}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </main>
+</Layout>
