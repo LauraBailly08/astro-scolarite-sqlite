@@ -20,7 +20,7 @@ jobs:
           port: 23016
           script: |
             set -e
-            export PATH="\(HOME/.bun/bin:\)PATH"
+            export PATH="\(HOME/.bun/bin:/usr/local/bin:/usr/bin:/bin:\)PATH"
 
             echo "======================================"
             echo "Début du déploiement"
