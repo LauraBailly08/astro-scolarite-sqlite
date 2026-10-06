@@ -14,13 +14,13 @@ jobs:
       - name: Deploy on Ubuntu server
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
+          host: 185.157.244.202
+          username: etudiant
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT }}
+          port: 23016
           script: |
             set -e
-            export PATH="$HOME/.bun/bin:$PATH"
+            export PATH="\(HOME/.bun/bin:\)PATH"
 
             echo "======================================"
             echo "Début du déploiement"
